@@ -3,13 +3,10 @@ import numpy as np
 from prep_utils import load_csv, preprocess_dataset
 from log_regression import LogisticRegression
 
-# gradient descent   stochastic gradient descent
-# batch gradient descent
-
 # the programs generates a file containing the weights that will be used for the prediction
 
 # option : 
-#   -v : plot cost history, plot confusion matrix, plot metrics (accuracy f1 recall precision), plot ROC curve 
+#   -v : plot cost history, plot metrics (accuracy f1 recall precision), plot ROC curve 
 # in prediction -> get the count for each hogwartz house
 
 def main():
