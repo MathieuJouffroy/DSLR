@@ -2,6 +2,7 @@ from sys import argv
 import numpy as np
 from prep_utils import load_csv, preprocess_dataset
 from log_regression import LogisticRegression
+from visualization import accuracy, confusion_matrix
 
 # the programs generates a file containing the weights that will be used for the prediction
 
@@ -35,14 +36,15 @@ def main():
         assert model.theta.shape[1] == 1
 
         theta, J_hist = model.fit_with_batch_gd(x_train, y_train)
-        print (theta)
         print (theta.shape)
         
         classes = np.unique(y_train)
         model.set_weights(theta)
         y_pred = model.prediction(x_train, classes)
-        score = (y_pred == y_train).mean()
-        print (score)
+        score = accuracy(y_train, y_pred)
+        final_cm = confusion_matrix(classes, y_train, y_pred)
+        print (final_cm)
+        print (f"\nOur model has an accuracy of {score}")
     else:
         print ("Input the dataset to run the program.")
         return

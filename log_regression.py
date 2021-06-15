@@ -80,10 +80,6 @@ class LogisticRegression():
 
 # def plot cost hitory          
 
-#def metrics -> classification report
-#   """
-#   Return a dataframe with metrics informations for each class such as : 
-#        - precision : tp / (tp + fp)
-#        - recall    : tp / (tp + fn)
-#        - f1score   : 2 * tp / (2 * tp + fp + fn) == 2 * (precision * recall) / (precision + recall)
-#        - Number of observations per class predicted
+#def score
+
+# def confusion matrix 
