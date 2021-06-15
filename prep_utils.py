@@ -27,7 +27,9 @@ def normalize_dataframe(raw_df: pd.DataFrame) -> pd.DataFrame:
     return raw_df
 
 def preprocess_dataset(dataframe: pd.DataFrame) -> pd.DataFrame:
-    # take only the courses as features except for arithmancy (not relevant)
+    '''Filter out the features that are not relevant for training our model'''
+    # remove arithmancy & Care of Magical Creatures (both not relevant) and 
+    # and all the non-numerical features
     features_df = dataframe.iloc[:, 7:]
     features_df = features_df.drop(columns=['Care of Magical Creatures'])
     # fill missing values by the mean of all rows of the specific column
