@@ -26,7 +26,7 @@ def main():
         # add intercept term (bias) to X -> 2-D matrix of shape (m, (n + 1))
         x_train = np.c_[np.ones(features_df.shape[0]), features_df]
         
-        model = LogisticRegression(n_iters=400, lambd=0.5)
+        model = LogisticRegression(n_iters=500, lambd=1)
         # theta transpose
         model.set_weights(np.zeros((x_train.shape[1], 1)))
 
@@ -52,9 +52,11 @@ def main():
         x_test = np.c_[np.ones(features.shape[0]), features]
         y_test_pred = model.prediction(x_test, classes)
         y_p = model.prediction(x_test, classes)
-        print (y_test_pred)
-        
-        
+        df_y = load_csv('datasets/dataset_truth.csv')
+        y_true = np.array(df_y['Hogwarts House'])
+        y_true = y_true[:, np.newaxis]
+        score_test = accuracy(y_true, y_test_pred)
+        print (f"\nOur model has an accuracy of {score_test} on the test set")
 
     else:
         print ("Input the dataset to run the program.")
