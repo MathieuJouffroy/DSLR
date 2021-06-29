@@ -20,9 +20,9 @@ def filter_dataframe(dataframe: pd.DataFrame) -> pd.DataFrame:
 def normalize_dataframe(raw_df: pd.DataFrame) -> pd.DataFrame:
     '''Standardizes the values of each columns of the dataframe'''
     for name in raw_df.columns:
-        print(f"--- {name} ---")
-        print (f"min: {raw_df[name].min()}")
-        print (f"max: {raw_df[name].max()}\n")
+        #print(f"--- {name} ---")
+        #print (f"min: {raw_df[name].min()}")
+        #print (f"max: {raw_df[name].max()}\n")
         raw_df[name] = (raw_df[name] - raw_df[name].mean()) / raw_df[name].std()
     return raw_df
 

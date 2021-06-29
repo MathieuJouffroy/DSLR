@@ -1,23 +1,33 @@
 import numpy as np
 
 class LogisticRegression():
-    """ Logistic Regression Classifier
+    """
+    Logistic Regression Classifier
+
     Parameters
     ----------
-    alpha: float
-      Learning rate (between 0.0 and 1.0)
-    n_iters: int
-      Number of iterations over the whole training dataset
+    alpha : float, default=0.1 (between 0.0 and 1.0)
+      Learning rate : the tuning parameter for the optimization algorithm
+      that determines the step size at each iteration while moving towards
+      a minimum of the cost function.
+    
+    n_iters : int, default=50
+      Number of iterations taken for the optimization algorithm to converge
+
+    lambd : int, (default=0)
+      Regularization term
 
     Attributes
     ----------
-    _theta: Matrix of shape = [n_class, n_feature]
-      θ₀,θ₁ ... weights after fitting
+    _theta: Matrix of shape [n_class, n_feature]
+     Weights 
     """
     
-    def __init__(self, alpha=0.01, n_iters=20):
+    def __init__(self, alpha=0.01, n_iters=50, lambd=0):
         self.alpha = alpha
         self.n_iters = n_iters
+        self.lambd = lambd
+
     
     def set_weights(self, theta):
         self.theta = theta
@@ -42,7 +52,10 @@ class LogisticRegression():
         Y_pred = self.hypothesis(X)
         losses = Y * np.log(Y_pred) + (1 - Y) * np.log(1 - Y_pred)
         cost = (-1/m) * np.sum(losses)
-        return cost                                                         
+        #Note that we should not regularize the biais parameter 
+        if self.lambd != 0:
+            cost += (self.lambd/(2*m)) * np.sum(np.square(self.theta[1:]))
+        return cost                                   
     
     def fit_with_batch_gd(self, X, Y):
         # DIMENSIONS:
@@ -55,7 +68,6 @@ class LogisticRegression():
         J_history = []
         classes = np.unique(Y)
         class_weights = []
-        print (classes)
 
         for c in classes:
             # binary classification one vs all
@@ -68,6 +80,10 @@ class LogisticRegression():
             for iter in range(self.n_iters):
                 Y_pred = self.hypothesis(X)
                 gradient = np.dot(X.T, (Y_pred - y_bools))
+                if self.lambd != 0:
+                    weights = self.theta
+                    weights[0] = 0
+                    gradient += (self.lambd/m) * weights
                 self.theta -= (self.alpha/m) * gradient
                 cost = self.cost_function(X, y_bools)
                 J_history.append(cost)
@@ -76,10 +92,5 @@ class LogisticRegression():
             class_weights.append(self.theta)
         return (np.array(class_weights), J_history)
 
-#def fit_with_mini_batch_gd
 
 # def plot cost hitory          
-
-#def score
-
-# def confusion matrix 

@@ -3,6 +3,7 @@ import numpy as np
 from prep_utils import load_csv, preprocess_dataset
 from log_regression import LogisticRegression
 from visualization import accuracy, confusion_matrix
+import pandas as pd
 
 # the programs generates a file containing the weights that will be used for the prediction
 
@@ -24,9 +25,8 @@ def main():
         y_train = y_train[:, np.newaxis]
         # add intercept term (bias) to X -> 2-D matrix of shape (m, (n + 1))
         x_train = np.c_[np.ones(features_df.shape[0]), features_df]
-
         
-        model = LogisticRegression(n_iters=1000)
+        model = LogisticRegression(n_iters=400, lambd=0.5)
         # theta transpose
         model.set_weights(np.zeros((x_train.shape[1], 1)))
 
@@ -36,7 +36,6 @@ def main():
         assert model.theta.shape[1] == 1
 
         theta, J_hist = model.fit_with_batch_gd(x_train, y_train)
-        print (theta.shape)
         
         classes = np.unique(y_train)
         model.set_weights(theta)
@@ -45,6 +44,18 @@ def main():
         final_cm = confusion_matrix(classes, y_train, y_pred)
         print (final_cm)
         print (f"\nOur model has an accuracy of {score}")
+
+
+        # ---- PREDICT ----
+        df = load_csv('datasets/dataset_test.csv')
+        features = np.array(preprocess_dataset(df))
+        x_test = np.c_[np.ones(features.shape[0]), features]
+        y_test_pred = model.prediction(x_test, classes)
+        y_p = model.prediction(x_test, classes)
+        print (y_test_pred)
+        
+        
+
     else:
         print ("Input the dataset to run the program.")
         return
