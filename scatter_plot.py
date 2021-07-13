@@ -1,7 +1,7 @@
 from sys import argv
 import matplotlib.pyplot as plt
 import pandas as pd
-from prep_utils import load_csv, filter_dataframe, normalize_dataframe
+from prep_utils import load_csv, filter_df, normalize_df
 
 def scatter_plot(courses_df: pd.DataFrame):
     "Scatter plot all combinations of courses"
@@ -27,9 +27,8 @@ def	main():
     else:
         print ("Input the dataset to run the program.")
         return
-    # Astronomy', 'Defense Against the Dark Arts
-    courses_df = filter_dataframe(dataframe)
-    courses_df = normalize_dataframe(courses_df)
+
+    courses_df = normalize_df(filter_df(dataframe))
     scatter_plot(courses_df)
     return
 

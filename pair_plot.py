@@ -5,10 +5,9 @@ import numpy as np
 import seaborn as sns
 from prep_utils import load_csv
 
-def pair_plot(dataset: pd.DataFrame, features: list):
+def pair_plot(courses: pd.DataFrame, features: list):
     """Plot multiple pairwise bivariate distributions of the features in the dataset"""
-    g = sns.pairplot(dataset[features], markers="x", height=1, hue='Hogwarts House')
-    g.fig.set_size_inches(15,15)
+    sns.pairplot(courses[features], markers="x", height=0.66, aspect=1.7, corner=True, hue='Hogwarts House')
     plt.show()
 
 def main():
@@ -23,15 +22,10 @@ def main():
 
     dataframe = dataframe.drop(['Index'], axis=1)
     nbr_df = dataframe.select_dtypes([np.number])
-    # answer = those where we can see at least 3 distinct categories on plot
-    # not : 'Arithmancy', maybe not 'Care of Magical Creatures'
-    relevant = ['Hogwarts House', 'Astronomy', 'Herbology', 'Divination',
-                'Muggle Studies', 'Ancient Runes', 'History of Magic',
-               'Transfiguration', 'Potions', 'Charms', 'Flying',
-               'Defense Against the Dark Arts']
-
-    relevant_df = dataframe[relevant]
-    pair_plot(relevant_df, relevant_df.columns)
+    courses_df = dataframe.drop(dataframe.columns[[1, 2, 3, 4]], axis=1)
+    
+    plt.rcParams.update({'font.size': 5.1})
+    pair_plot(courses_df, courses_df.columns)
     sns.heatmap(nbr_df.corr())
     plt.show()
 
