@@ -1,5 +1,7 @@
 from numpy import dtype
 import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
 
 def accuracy(y_true, y_pred):
     ''' Calculate the accuracy score of our predictions. '''
@@ -7,19 +9,19 @@ def accuracy(y_true, y_pred):
     return accuracy
 
 def confusion_matrix(classes, y_true, y_pred):
-    ''' 
+    '''
     Generate the confusion matrix for our data as a dataframe.
     The diagonal values represents the true positive.
     The horizontal axis represents the false positives (we predicted
     a class when the the real value was not that class).
     The vertical axis represents the false negatives (we predicted
     that it was not a class when the real value was the class).
-    
+
     Arguments:
     classes -- list of unique classes
     y_true -- true outputs (numpy array)
     y_pred -- predicted outputs (numpy array)
-    
+
     Returns:
     cf_matrix -- the confusion matrix as a pandas dataframe
     '''
@@ -38,7 +40,7 @@ def confusion_matrix(classes, y_true, y_pred):
 def classification_report(cf_matrix, classes):
     """
     Support is the number of actual occurrences of the class in the specified dataset.
-    precision = tp / (tp + fp)   
+    precision = tp / (tp + fp)
     recall = tp / (tp + fn)
     f1_score = 2 * (precision * recall) / (precision + recall)
     tp on diagonal axis
@@ -66,4 +68,20 @@ def classification_report(cf_matrix, classes):
             class_rep.loc[col, 'F1'] = f1
             class_rep.loc[col, 'Support'] = tp + fp
     return class_rep
-    
+
+def show_cost_fct(J_history, house):
+    """
+    Display the values for the weigh, the biais, the mean squarred error (mse),
+    the root mse and the r2 score.
+
+    Arguments:
+    J_history -- history for the cost function (at each iteration)
+    class -- the class to displot the cost function
+    """
+
+    plt.plot(J_history, color='navy')
+    print (min(J_history))
+    plt.yticks(np.arange(min(J_history), max(J_history), 0.05))
+    plt.title(f'Cost function J for {house}')
+    plt.xlabel('iterations')
+    plt.show()

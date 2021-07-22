@@ -6,15 +6,18 @@ import pandas as pd
 def load_csv(filename):
     '''Loads a csv file and return a pd.DataFrame or None'''
     if os.path.exists(filename) and os.path.isfile(filename):
-        dataframe = pd.read_csv(filename)
-        return dataframe
+        if os.stat(filename).st_size != 0:
+            dataframe = pd.read_csv(filename, error_bad_lines=False)
+            print (f"\nLoading dataset of dimensions {dataframe.shape[0]} x {dataframe.shape[1]}\n")
+            return dataframe
     print ("Either the file is missing or not readable")
     return None
 
-def filter_df(dataframe):
+def filter_df(dataframe, keep_idx=True):
     '''Filters out all the columns except for the courses and returns a new pd.DataFrame'''
     dataframe = dataframe.drop(['Hogwarts House'], axis=1)
-    dataframe = dataframe.drop(['Index'], axis=1)
+    if keep_idx == True:
+        dataframe = dataframe.drop(['Index'], axis=1)
     courses_df = dataframe.select_dtypes([np.number])
     return courses_df
 

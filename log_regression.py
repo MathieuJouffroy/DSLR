@@ -115,10 +115,12 @@ class LogisticRegression():
                 cost = self.cost_function(X, y_bools)
                 J_history.append(cost)
 
-                if iter % 50 == 0:
-                    print (f'iter:{iter:d}\t\t\tcost:{cost:.5f}')
+                if (iter + 1) % 50 == 0:
+                    if (iter + 1) >= 100:
+                        print (f'iter:{iter+1:d}\t\tcost:{cost:.5f}')
+                    else:
+                        print (f'iter:{iter+1:d}\t\t\tcost:{cost:.5f}')
 
             class_weights.append(self.theta)
             all_cost.append(J_history)
-
         return (np.array(class_weights), np.array(all_cost))
