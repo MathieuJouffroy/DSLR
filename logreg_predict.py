@@ -1,7 +1,6 @@
 from sys import argv
 import numpy as np
 import pandas as pd
-import os.path
 from collections import OrderedDict
 from log_regression import LogisticRegression
 from prep_utils import load_csv, preprocess_dataset
@@ -27,15 +26,10 @@ def main():
 
         y_test_pred = model.prediction(x_test, classes)
 
-        #y_true = load_csv('')
-        #y_true = np.array(y_true.drop(['Index'], axis=1))
-        #print (y_test_pred)
-        #print (f"\nOur model has an accuracy of {accuracy(y_true, y_test_pred):.5f} on the test set")
-
         y_test_pred = y_test_pred.reshape(y_test_pred.shape[0])
         houses = pd.DataFrame(OrderedDict({'Index': range(len(y_test_pred)), 'Hogwarts House': y_test_pred}))
         houses.to_csv('houses.csv', index=False)
-        print (f"\nLoading are prediction on the file Houses.csv")
+        print (f"\nLoading our predictions on the file Houses.csv")
 
     else:
         print ("Input the dataset and the weights to run the program.")

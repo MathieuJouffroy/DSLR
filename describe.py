@@ -6,7 +6,7 @@ from prep_utils import load_csv, filter_df
 
 def describe(dataset):
     """ Mimics the Pandas Describe function. """
-    output_df = pd.DataFrame(columns=[colName for (colName, colData) in dataset.iteritems()],
+    output_df = pd.DataFrame(columns=[name for (name, data) in dataset.iteritems()],
                              index=['count', 'mean', 'std', 'min', '25%', '50%', '75%', 'max'])
     for (name, data) in dataset.iteritems():
         values = [x for x in data.values[~np.isnan(data.values)]]
@@ -27,14 +27,13 @@ def main():
         df_raw = load_csv(argv[1])
         if df_raw is None:
             return print('Please input a valid path to the dataset.')
-        print (df_raw.describe())
 
-        df = filter_df(df_raw, keep_idx=False)
-        describe_df = describe(df)
-        print(f"my one:\n{describe_df}")
+        #print (df_raw.describe())
+        dataset = filter_df(df_raw, keep_idx=False)
+        describe_df = describe(dataset)
+        print(describe_df)
     else:
-        print ("Input the dataset to run the program.")
-        return
+        return print ("Input the dataset to run the program.")
 
 if __name__ == "__main__":
     main()

@@ -1,10 +1,9 @@
 from sys import argv
 import numpy as np
 import pandas as pd
-from prep_utils import load_csv, preprocess_dataset
 from log_regression import LogisticRegression
+from prep_utils import load_csv, preprocess_dataset
 from visualization import accuracy, confusion_matrix, classification_report, show_cost_fct
-from collections import OrderedDict
 
 def main():
     if len(argv) >= 2:
@@ -15,14 +14,14 @@ def main():
         if raw_df is None:
             print ("Input a valid file to run the program")
             return
-        print (raw_df.describe())
+
         features_df = preprocess_dataset(raw_df)
         print (features_df.info())
         y_train = np.array(raw_df.loc[:, 'Hogwarts House'])
         y_train = y_train[:, np.newaxis]
         x_train = np.c_[np.ones(features_df.shape[0]), features_df]
 
-        model = LogisticRegression(alpha=0.01, n_iters=400, lambd=0.5)
+        model = LogisticRegression(alpha=0.01, n_iters=400, lambd=0)
         model.set_weights(np.zeros((x_train.shape[1], 1)))
 
         assert y_train.shape[1] == 1
@@ -37,7 +36,6 @@ def main():
 
         if logging:
             classes = np.unique(y_train)
-            print (type(classes))
             model.set_weights(weights)
             print (f"\nWe trained our model with {model.n_iters} iterations\n")
 

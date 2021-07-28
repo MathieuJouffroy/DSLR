@@ -4,14 +4,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 from prep_utils import load_csv, filter_df
 
-def get_grades(raw_df, courses_df, house, course) -> pd.Series:
+def get_grades(raw_df: pd.DataFrame, courses_df: pd.DataFrame, house:str, course:str) -> pd.Series:
     '''Returns the grades for a specific house given a specific course, filtering out NaN values'''
 
     output_df = courses_df[raw_df["Hogwarts House"] == house][course]
     filter_nan_df = output_df[~np.isnan(output_df)]
     return filter_nan_df
 
-def plot_course_hist(raw_df, courses_df, course):
+def plot_course_hist(raw_df: pd.DataFrame, courses_df: pd.DataFrame, course:str):
     '''Plots the histograms of each house for a specific course'''
 
     bins = np.linspace(min(courses_df[course]), max(courses_df[course]), 80)
@@ -27,7 +27,7 @@ def plot_course_hist(raw_df, courses_df, course):
     plt.title(f"Histogram of {course} grades among Hogwarts houses")
     plt.show()
 
-def plot_all_courses(raw_df, courses_df):
+def plot_all_courses(raw_df: pd.DataFrame, courses_df: pd.DataFrame):
     '''Plots all histograms for each course'''
     for course in courses_df.columns:
         plot_course_hist(raw_df, courses_df, course)

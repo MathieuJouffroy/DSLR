@@ -1,5 +1,4 @@
 import numpy as np
-import math
 
 def count_(data):
     """ Returns the count of a given list of numbers. """
@@ -14,41 +13,52 @@ def mean_(data):
     return total / len(data)
 
 def std_(data):
-    """ Returns the standard deviation of a distribution. """
+    """
+    Returns the standard deviation of a distribution. It measure how
+    spread out numbers are (the higher the value the more spread out
+    the number are, the lower the value the closer they are to the mean).
+    """
     mean = mean_(data)
-    total = 0
+    deviations = 0
     for x in data:
-        total += (x - mean) ** 2
-    return (total / len(data)) ** 0.5
+        deviations += (x - mean) ** 2
+    variance = deviations / len(data)
+    return variance ** 0.5
 
 def min_(data):
     """ Returns the minimum value from a given list of numbers. """
-    min_value = data[0]
+    min_val = data[0]
     for x in data:
         val = x
-        if val < min_value:
-            min_value = val
-    return min_value
+        if val < min_val:
+            min_val = val
+    return min_val
 
 def max_(data):
     """ Returns the maximum value from a given list of numbers. """
-    min_value = data[0]
+    max_val = data[0]
     for x in data:
         val = x
-        if val > min_value:
-            min_value = val
-    return min_value
+        if val > max_val:
+            max_val = val
+    return max_val
 
 def percentile_(data, percent):
-    """ Computes the q-th percentile of the data """
+    """
+    Computes the q-th quartile of the data. The quartile measures the spread of
+    values above and below the mean. A quartile is one of the 3 values, lower quartile,
+    median, and upper quartile, that divides the dataset into four equal parts.
+    """
     data.sort()
-    k = (len(data) - 1) * percent
-    floor = np.floor(k)
-    ceil = np.ceil(k)
+    qth_idx = (len(data) - 1) * percent
+    # .floor() to calculate the nearest integer to a decimal number.
+    # .ceil() rounds a number down to its nearest integer.
+    floor = np.floor(qth_idx)
+    ceil = np.ceil(qth_idx)
 
     if floor == ceil:
-        return data[int(k)]
+        return data[int(qth_idx)]
 
-    d0 = data[int(floor)] * (ceil - k)
-    d1 = data[int(ceil)] * (k - floor)
+    d0 = data[int(floor)] * (ceil - qth_idx)
+    d1 = data[int(ceil)] * (qth_idx - floor)
     return d0 + d1

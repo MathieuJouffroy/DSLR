@@ -7,7 +7,7 @@ def load_csv(filename):
     '''Loads a csv file and return a pd.DataFrame or None'''
     if os.path.exists(filename) and os.path.isfile(filename):
         if os.stat(filename).st_size != 0:
-            dataframe = pd.read_csv(filename, error_bad_lines=False)
+            dataframe = pd.read_csv(filename)
             print (f"\nLoading dataset of dimensions {dataframe.shape[0]} x {dataframe.shape[1]}\n")
             return dataframe
     print ("Either the file is missing or not readable")

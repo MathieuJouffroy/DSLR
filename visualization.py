@@ -1,4 +1,3 @@
-from numpy import dtype
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
@@ -80,7 +79,6 @@ def show_cost_fct(J_history, house):
     """
 
     plt.plot(J_history, color='navy')
-    print (min(J_history))
     plt.yticks(np.arange(min(J_history), max(J_history), 0.05))
     plt.title(f'Cost function J for {house}')
     plt.xlabel('iterations')
