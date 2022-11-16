@@ -1,2 +1,2 @@
 # DSLR
-Logistic Regression - 42
+Logistic Regression, metrics & viz implemented from scratch with - 42 
